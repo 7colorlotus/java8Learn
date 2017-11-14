@@ -48,4 +48,8 @@ public class Person {
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }
+
+    public void print(){
+        System.out.println(this.toString());
+    }
 }
