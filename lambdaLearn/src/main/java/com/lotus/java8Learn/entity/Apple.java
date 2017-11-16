@@ -6,6 +6,7 @@ package com.lotus.java8Learn.entity;
 public class Apple {
     private String color;
     private int weight;
+    private String country;
 
     public Apple() {
     }
@@ -35,11 +36,20 @@ public class Apple {
         this.weight = weight;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     @Override
     public String toString() {
         return "Apple{" +
                 "color='" + color + '\'' +
                 ", weight=" + weight +
+                ", country='" + country + '\'' +
                 '}';
     }
 }
