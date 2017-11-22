@@ -54,7 +54,7 @@ public class FirstStream {
 
         //java8的方式，多核架构并行执行
         lowCaloricDishesName =
-                menu.parallelStream()
+                menu.parallelStream()//修改点
                         .filter(d -> d.getCalories() < 400)
                         .sorted(comparing(Dish::getCalories))
                         .map(Dish::getName)
