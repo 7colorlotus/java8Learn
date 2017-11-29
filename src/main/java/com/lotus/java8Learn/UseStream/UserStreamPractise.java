@@ -7,10 +7,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.IntBinaryOperator;
 import java.util.stream.Collectors;
 
 /**
+ * Filter,Map,Match,Reduce实战
+ *
  *(1) 找出2011年发生的所有交易，并按交易额排序（从低到高）。
  *(2) 交易员都在哪些不同的城市工作过？
  *(3) 查找所有来自于剑桥的交易员，并按姓名排序。
