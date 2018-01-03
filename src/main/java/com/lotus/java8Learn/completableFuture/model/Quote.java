@@ -1,4 +1,4 @@
-package com.lotus.java8Learn.completableFuture.multiTaskFinishByStream;
+package com.lotus.java8Learn.completableFuture.model;
 
 public class Quote {
     private final String shopName;

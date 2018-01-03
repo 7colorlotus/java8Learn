@@ -1,7 +1,6 @@
 package com.lotus.java8Learn.completableFuture;
 
-import com.lotus.java8Learn.completableFuture.multiTaskFinishByStream.Discount;
-import com.lotus.java8Learn.completableFuture.multiTaskFinishByStream.Quote;
+import com.lotus.java8Learn.completableFuture.model.Discount;
 
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
