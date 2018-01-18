@@ -171,6 +171,7 @@ public class CompletableFutureClient {
     }
 
     public static void main(String args[]) {
+        //异步执行future
         long start = System.nanoTime();
         System.out.println(new CompletableFutureClient().findPricesByDiscountUseAsyc("myPhone27S"));
         long duration = (System.nanoTime() - start) / 1_000_000;
@@ -178,7 +179,7 @@ public class CompletableFutureClient {
 
         System.out.println( Runtime.getRuntime().availableProcessors());//CPU的核数
 
-        //
+        //响应 CompletableFuture 的 completion 事件
         CompletableFuture[] futures = new CompletableFutureClient().findPricesStream("myPhone")
                 .map(f -> f.thenAccept(System.out::println))
                 .toArray(size -> new CompletableFuture[size]);
