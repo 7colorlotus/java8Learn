@@ -1,5 +1,6 @@
 package com.lotus.java8Learn.concurrency;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SequenceThread {
 
     public static void main(String[] args) throws Exception{
-        usePriority();
+        useCountDownLatch();
     }
 
     /**
@@ -68,7 +69,7 @@ public class SequenceThread {
     }
 
     /**
-     * 使用newSingleThreadExecutor线程池
+     * 使用newSingleThreadExecutor线程池，不严格
      */
     public static void useThreadPool(){
         System.out.println("第二种方式，使用newSingleThreadExecutor线程池");
@@ -89,7 +90,7 @@ public class SequenceThread {
     }
 
     /**
-     * 第三种方式，使用自定义计序方式
+     * 第三种方式，使用自定义计序方式，繁琐
      */
     public static void useAtomicCount(){
         System.out.println("第三种方式，使用自定义计序方式");
@@ -107,6 +108,45 @@ public class SequenceThread {
                 break;
             }
         }
+    }
+
+    /**
+     * 使用countDownLatch
+     */
+    public static void useCountDownLatch() throws InterruptedException {
+        CountDownLatch  countDownLatch1 = new CountDownLatch(1);
+        Thread t1 = new Thread(()->{
+            System.out.println("线程1执行了。。。。");
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            countDownLatch1.countDown();
+        },"线程1");
+        t1.start();
+        countDownLatch1.await();
+
+        CountDownLatch countDownLatch2 = new CountDownLatch(1);
+        Thread t2 = new Thread(()->{
+            System.out.println("线程2执行了。。。。");
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            countDownLatch2.countDown();
+        },"线程2");
+        t2.start();
+        countDownLatch2.await();
+
+        CountDownLatch countDownLatch3 = new CountDownLatch(1);
+        Thread t3 = new Thread(()->{
+            System.out.println("线程3执行了。。。。");
+            countDownLatch3.countDown();
+        },"线程3");
+        t3.start();
+        countDownLatch3.await();
     }
 }
 

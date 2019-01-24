@@ -4,7 +4,8 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.stream.LongStream;
 
-/**
+/*
+*
  * 用分支/合并框架执行并行求和
  *
  * 使用分支/合并框架的最佳做法
@@ -30,15 +31,15 @@ import java.util.stream.LongStream;
      码分析——删去从未被使用的计算）。
      对于分支/合并拆分策略还有最后一点补充：你必须选择一个标准，来决定任务是要进一步
      拆分还是已小到可以顺序求值。
- */
+*/
 public class ForkJoinSumCalculator
         extends java.util.concurrent.RecursiveTask<Long> {
 
     public static void main(String[] args){
-        int n = 100;
+        int n = 101;
         long[] numbers = LongStream.rangeClosed(1, n).toArray();
         ForkJoinTask<Long> task = new ForkJoinSumCalculator(numbers);
-        Long result = new ForkJoinPool().invoke(task);
+        Long result = new ForkJoinPool().invoke(task); //同步调用
         System.out.println("result:" + result);
     }
 
@@ -57,7 +58,7 @@ public class ForkJoinSumCalculator
         this.end = end;
     }
 
-    @Override
+    /*@Override
     protected Long compute() {
         int length = end - start;
         if (length <= THRESHOLD) {
@@ -71,8 +72,26 @@ public class ForkJoinSumCalculator
         Long rightResult = rightTask.compute();
         Long leftResult = leftTask.join();
         return leftResult + rightResult;
+    }*/
+
+    @Override
+    protected Long compute() {
+        int length = end - start;
+        if (length <= THRESHOLD) {
+            return computeSequentially();
+        }
+        ForkJoinSumCalculator leftTask =
+                new ForkJoinSumCalculator(numbers, start, start + length / 2);
+        ForkJoinSumCalculator rightTask =
+                new ForkJoinSumCalculator(numbers, start + length / 2, end);
+        invokeAll(leftTask, rightTask);
+        return leftTask.join() + rightTask.join();
     }
 
+    /**
+     * 正常的统计方法
+     * @return
+     */
     private long computeSequentially() {
         long sum = 0;
         for (int i = start; i < end; i++) {
